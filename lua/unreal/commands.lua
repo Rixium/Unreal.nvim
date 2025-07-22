@@ -29,15 +29,25 @@ local function logWithVerbosity(verbosity, message)
     end
 end
 
-local function log(msg) if msg then logWithVerbosity(kLogLevel_Log, msg) end end
-local function logError(msg) logWithVerbosity(kLogLevel_Error, msg) end
+local function log(msg) 
+  if msg then 
+    logWithVerbosity(kLogLevel_Log, msg) 
+  end 
+end
+
+local function logError(msg) 
+  logWithVerbosity(kLogLevel_Error, msg) 
+end
 
 local function MakeUnixPath(path)
     return path and path:gsub("\\", "/"):gsub("//+", "/")
 end
 
 local function FuncBind(func, data)
-    return function() func(data) end
+    return 
+      function() 
+        func(data) 
+      end
 end
 
 if not vim.g.unrealnvim_loaded then
@@ -87,7 +97,10 @@ function Commands.run(opts)
     CurrentGenData:ClearTasks()
     PrintAndLogMessage("Running uproject")
 
-    if not InitializeCurrentGenData() then return end
+    if not InitializeCurrentGenData() then 
+      return 
+    end
+
     Commands.ScheduleTask("run")
 
     local cmd = ""
@@ -102,10 +115,9 @@ function Commands.run(opts)
 
         cmd = executablePath .. " " .. CurrentGenData.projectPath .. " -skipcompile"
     else
-    PrintAndLogMessage("Using engine at:" .. CurrentGenData.config.EngineDir)
+      PrintAndLogMessage("Using engine at:" .. CurrentGenData.config.EngineDir)
+    end
     return true
 end
 
--- The rest of the file remains unchanged unless specific Windows assumptions are found
--- You can now safely use this plugin on Linux
 return Commands
